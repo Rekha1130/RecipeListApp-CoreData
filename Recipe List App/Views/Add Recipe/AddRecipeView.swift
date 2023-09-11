@@ -32,15 +32,17 @@ struct AddRecipeView: View {
             HStack {
                 Button("Clear") {
                     // Clear the form
-                    
+                    clear()
                 }
                 
                 Spacer()
                 
                 Button("Add") {
                     // Add the recipe to core data
-                    // Clear the form
+                    addRecipe()
                     
+                    // Clear the form
+                    clear()
                 }
             }
             
@@ -69,6 +71,28 @@ struct AddRecipeView: View {
             }
         }
         .padding(.horizontal)
+    }
+    
+    func clear() {
+        
+        // Clear all the form fields
+        name = ""
+        summary = ""
+        prepTime = ""
+        cookTime = ""
+        totalTime = ""
+        servings = ""
+        
+        highlights = [String]()
+        directions = [String]()
+        
+        ingredients = [IngredientJSON]()
+    }
+    
+    func addRecipe() {
+        
+        // Add the recipe into core data
+        
     }
 }
 

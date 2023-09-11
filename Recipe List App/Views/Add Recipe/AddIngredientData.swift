@@ -39,12 +39,24 @@ struct AddIngredientData: View {
                 
                 Button("Add") {
                     
+                    // Make sure that the fields are populated
+                    let cleanedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let cleanedNum = num.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let cleanedDenom = denom.trimmingCharacters(in: .whitespacesAndNewlines)
+                    let cleanedUnit = unit.trimmingCharacters(in: .whitespacesAndNewlines)
+                    
+                    // Check that all the fields are filled in
+                    if cleanedName == "" || cleanedNum == "" || cleanedDenom == "" || cleanedUnit == "" {
+                        return
+                    }
+                    
                     // Create an IngredientJSON object and set its properties
                     let i = IngredientJSON()
-                    i.name = name
-                    i.num = Int(num) ?? 1
-                    i.denom = Int(denom) ?? 1
-                    i.unit = unit
+                    i.id = UUID()
+                    i.name = cleanedName
+                    i.num = Int(cleanedNum) ?? 1
+                    i.denom = Int(cleanedDenom) ?? 1
+                    i.unit = cleanedUnit
                     
                     // Add this ingredient to the list
                     ingredients.append(i)
