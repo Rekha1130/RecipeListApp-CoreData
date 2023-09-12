@@ -24,6 +24,14 @@ struct AddRecipeView: View {
     // Ingredients data
     @State private var ingredients = [IngredientJSON]()
     
+    // Recipe Image
+    @State private var recipeImage: UIImage?
+    
+    // Image Picker
+    @State private var isShowingImagePicker = false
+    @State private var selectedImageSource = UIImagePickerController.SourceType.photoLibrary
+    @State private var placeHolderImage = Image("noImageAvailable")
+    
     var body: some View {
         
         VStack {
@@ -51,8 +59,29 @@ struct AddRecipeView: View {
                 
                 VStack {
                     
-                    // The recipe meta data
+                    // Recipe image
+                    placeHolderImage
+                        .resizable()
+                        .scaledToFit()
                     
+                    HStack {
+                        Button("Photo Library") {
+                            selectedImageSource = .photoLibrary
+                            isShowingImagePicker = true
+                        }
+                        
+                        Text(" | ")
+                        
+                        Button("Camera") {
+                            selectedImageSource = .camera
+                            isShowingImagePicker = true
+                        }
+                    }
+                    .sheet(isPresented: $isShowingImagePicker, onDismiss: loadImage) {
+                        ImagePicker(selectedSource: selectedImageSource, recipeImage: $recipeImage)
+                    }
+                    
+                    // The recipe meta data
                     AddMetaData(name: $name,
                                 summary: $summary,
                                 prepTime: $prepTime,
@@ -71,6 +100,15 @@ struct AddRecipeView: View {
             }
         }
         .padding(.horizontal)
+    }
+    
+    func loadImage() {
+        
+       // Check if an image was selected from the library
+        if recipeImage != nil {
+            // Set it as the placeholder image
+            placeHolderImage = Image(uiImage: recipeImage!)
+        }
     }
     
     func clear() {
