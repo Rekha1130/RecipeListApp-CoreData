@@ -2,15 +2,18 @@
 //  RecipeTabView.swift
 //  Recipe List App
 //
-//  Created by Christopher Ching on 2021-02-03.
+//  Created by Rekha
 //
 
 import SwiftUI
 
 struct RecipeTabView: View {
+    
+    @State private var tabSelection = 0
+    
     var body: some View {
         
-        TabView {
+        TabView(selection: $tabSelection) {
             
             RecipeFeaturedView()
                 .tabItem {
@@ -19,6 +22,7 @@ struct RecipeTabView: View {
                         Text("Featured")
                     }
                 }
+                .tag(Constants.featuredTab)
             
             RecipeListView()
                 .tabItem {
@@ -27,14 +31,16 @@ struct RecipeTabView: View {
                         Text("List")
                     }
                 }
+                .tag(Constants.listTab)
             
-            AddRecipeView()
+            AddRecipeView(tabSelection: $tabSelection)
                 .tabItem {
                     VStack {
                         Image(systemName: "plus.circle")
                         Text("Add")
                     }
                 }
+                .tag(Constants.addRecipeTab)
         }
         .environmentObject(RecipeModel())
         

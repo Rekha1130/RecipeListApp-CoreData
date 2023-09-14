@@ -2,37 +2,37 @@
 //  RecipeDetailView.swift
 //  Recipe List App
 //
-//  Created by Christopher Ching on 2021-01-14.
+//  Created by Rekha
 //
 
 import SwiftUI
 
 struct RecipeDetailView: View {
-    
+
     var recipe:Recipe
-    
+
     @State var selectedServingSize = 2
-    
+
     var body: some View {
-        
+
         ScrollView {
-        
+
             VStack (alignment: .leading) {
-                
+
                 // MARK: Recipe Image
                 let image = UIImage(data: recipe.image ?? Data()) ?? UIImage()
                 Image(uiImage: image)
                     .resizable()
                     .scaledToFill()
-                
+
                 // MARK: Recipe title
                 Text(recipe.name)
                     .bold()
                     .padding(.top, 20)
                     .padding(.leading)
                     .font(Font.custom("Avenir Heavy", size: 24))
-                
-                
+
+
                 // MARK: Serving size picker
                 VStack (alignment: .leading) {
                     Text("Select your serving size:")
@@ -48,7 +48,7 @@ struct RecipeDetailView: View {
                     .frame(width:160)
                 }
                 .padding()
-                
+
                 // MARK: Ingredients
                 VStack(alignment: .leading) {
                     Text("Ingredients")
@@ -56,10 +56,10 @@ struct RecipeDetailView: View {
                         .padding([.bottom, .top], 5)
 
                     ForEach (recipe.ingredients.allObjects as! [Ingredient]) { item in
-                        
-                        Text("• " + RecipeModel.getPortion(ingredient: item, recipeServings: recipe.servings, targetServings: selectedServingSize) + " " + recipe.name.lowercased())
-                        
-//                        Text("• " + RecipeModel.getPortion(ingredient: item, recipeServings: recipe.servings, targetServings: selectedServingSize) + " " + item.name.lowercased())
+
+                        Text("• " + RecipeModel.getPortion(ingredient: item, recipeServings: recipe.servings, targetServings: selectedServingSize)
+                             + " " + item.name.lowercased())
+                
                             .font(Font.custom("Avenir", size: 15))
                     }
                 }
@@ -67,15 +67,15 @@ struct RecipeDetailView: View {
 
                 // MARK: Divider
                 Divider()
-                
+
                 // MARK: Directions
                 VStack(alignment: .leading) {
                     Text("Directions")
                         .font(Font.custom("Avenir Heavy", size: 16))
                         .padding([.bottom, .top], 5)
-                    
+
                     ForEach(0..<recipe.directions.count, id: \.self) { index in
-                        
+
                         Text(String(index+1) + ". " + recipe.directions[index])
                             .padding(.bottom, 5)
                             .font(Font.custom("Avenir", size: 15))
@@ -83,17 +83,17 @@ struct RecipeDetailView: View {
                 }
                 .padding(.horizontal)
             }
-            
+
         }
     }
 }
 
 struct RecipeDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        
+
         // Create a dummy recipe and pass it into the detail view so that we can see a preview
         let model = RecipeModel()
-        
+
         RecipeDetailView(recipe: model.recipes[0])
     }
 }

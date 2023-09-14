@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Recipe List App
 //
-//  Created by Christopher Ching on 2021-01-14.
+//  Created by Rekha
 //
 
 import SwiftUI
@@ -73,14 +73,9 @@ struct RecipeListView: View {
                                     }
                                     
                                 })
-                            
-                            
-                            
                         }
                     }
                 }
-                
-                
             }
             .navigationBarHidden(true)
             .padding(.leading)

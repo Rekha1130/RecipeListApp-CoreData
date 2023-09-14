@@ -2,7 +2,7 @@
 //  Rational.swift
 //  Recipes
 //
-//  Created by Micah Beech on 2020-09-28.
+//  Created by Rekha
 //
 
 import Foundation

@@ -9,7 +9,12 @@ import SwiftUI
 
 struct AddRecipeView: View {
     
-    // Properties for meta data
+    @Environment(\.managedObjectContext) private var viewContext
+    
+    // Tab selection
+    @Binding var tabSelection: Int
+    
+    // Properties for recipe meta data
     @State private var name = ""
     @State private var summary = ""
     @State private var prepTime = ""
@@ -51,6 +56,9 @@ struct AddRecipeView: View {
                     
                     // Clear the form
                     clear()
+                    
+                    // Navigate to the list
+                    tabSelection = Constants.listTab
                 }
             }
             
@@ -125,17 +133,58 @@ struct AddRecipeView: View {
         directions = [String]()
         
         ingredients = [IngredientJSON]()
+        
+        placeHolderImage = Image("noImageAvailable")
+        
     }
     
     func addRecipe() {
         
-        // Add the recipe into core data
+        // Add the recipe into Core Data
+        let recipe = Recipe(context: viewContext)
+        recipe.id = UUID()
+        recipe.name = name
+        recipe.cookTime = cookTime
+        recipe.prepTime = prepTime
+        recipe.totalTime = totalTime
+        recipe.servings = Int(servings) ?? 1
+        recipe.directions = directions
+        recipe.highlights = highlights
+        recipe.image = recipeImage?.pngData()
         
+        // Add the ingredients
+        for i in ingredients {
+            let ingredient = Ingredient(context: viewContext)
+            ingredient.id = UUID()
+            ingredient.name = i.name
+            ingredient.unit = i.unit
+            ingredient.num = i.num ?? 1
+            ingredient.denom = i.denom ?? 1
+           
+            // Add this ingredient to the recipe
+            recipe.addToIngredients(ingredient)
+            // We can also write the above as::
+            //ingredient.recipe = recipe
+            }
+        
+        // Save it to Core Data
+        do {
+            // Save the recipe to core data
+            
+            try viewContext.save()
+            
+            // Switch the view to the list view
+            
+        } catch {
+            // Couldn't save the recipe
+            
+            Text(error.localizedDescription)
+        }
     }
 }
 
 struct AddRecipeView_Previews: PreviewProvider {
     static var previews: some View {
-        AddRecipeView()
+        AddRecipeView(tabSelection: Binding.constant(Constants.addRecipeTab))
     }
 }

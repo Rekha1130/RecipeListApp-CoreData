@@ -2,7 +2,7 @@
 //  RecipeModel.swift
 //  Recipe List App
 //
-//  Created by Christopher Ching on 2021-01-14.
+//  Created by Rekha
 //
 
 import Foundation
@@ -84,10 +84,6 @@ class RecipeModel: ObservableObject {
             // Couldn't save to core data
             
         }
-        
-        // Set local storage flag
-        
-        
     }
     
     static func getPortion(ingredient:Ingredient, recipeServings:Int, targetServings:Int) -> String {
