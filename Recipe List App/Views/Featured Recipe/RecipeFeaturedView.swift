@@ -2,7 +2,7 @@
 //  RecipeFeaturedView.swift
 //  Recipe List App
 //
-//  Created by Christopher Ching on 2021-02-09.
+//  Created by Rekha
 //
 
 import SwiftUI
